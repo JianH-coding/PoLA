@@ -1,17 +1,17 @@
 # Prompt Landslide Risk Assessment (PoLA)
 ## Contents
-- Overview
-- Repo Contents
-- System Requirements
-- Demo
+- [Overview](https://github.com/JianH-coding/PoLA#overview)
+- [Repo Contents](https://github.com/JianH-coding/PoLA#repo-contents)
+- [System Requirements](https://github.com/JianH-coding/PoLA#system-requirements)
+- [Demo](https://github.com/JianH-coding/PoLA#demo)
 
 ## Overview
 This is the computer code repo for the paper **Prompt Quantitative Risk Assessment for Rain-Induced Landslides**.
 
 ## Repo Contents
 - input:
-  - `Risk assessment input.txt` specifies the input settings.
-  - `Rainfall` contains the rainfall file of the rainstorm on 6-8 June 2008 in Hong Kong.
+  - [Risk assessment input.txt](./input/Risk%20assessment%20input.txt) specifies the input settings.
+  - [Rainfall](./Input/Rainfall) contains the rainfall file of the rainstorm on 6-8 June 2008 in Hong Kong.
 - Database:
   - `Digital Hong Kong` contains geospatial datasets such as elevation, slope, geology. (The size of these files is too large for this repo. If you need these datasets, please contact Jian He at jhebl@connect.ust.hk.)
   - `Hazard Assessment` contains the rainfall-landslide frequency model, the rainfall-landslide volume model, probability distribution of landslide runout and landslide potential trails.
@@ -46,4 +46,6 @@ Note that `python` should be added to the PATH system variable prior to running 
 
 If it the first time that you have run the codes, it will take several minutes (3 mins with the recommended specs) to generate files of potential landslide trails (`.json` files in `Hazard Assessment\Landslide Potential Trail`) and building locations (`Building Location.json` in `Digital Hong Kong\Building`). These files, once generated, will be reused next time.
 
-If the files of potential landslide trails and building locations have been already generated, it will be about 3 mins with the recommended specs to assess landslide risk and genarate the one-page report.
+If the files of potential landslide trails and building locations have been already generated, it will be about 3 mins with the recommended specs to assess landslide risk and genarate a one-page report as shown below:
+
+![image](./result20080606test/Report.png "An example of one-page report")
