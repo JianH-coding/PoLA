@@ -1,0 +1,25 @@
+This file defines the list of landslide potential trail files. To avoid buffer overflow, the landslide potential trail database is divided into multiple files. Each file stores potential trails for a certain range of rows of the global grid (defined by the DEM file in the Database). These files can be automatically generated, but the file names should be predefined in this list.
+StartRow,EndRow,FileName
+0,99,Database/Hazard Assessment/Landslide Potential Trail/Row0.json
+100,199,Database/Hazard Assessment/Landslide Potential Trail/Row100.json
+200,299,Database/Hazard Assessment/Landslide Potential Trail/Row200.json
+300,399,Database/Hazard Assessment/Landslide Potential Trail/Row300.json
+400,499,Database/Hazard Assessment/Landslide Potential Trail/Row400.json
+500,599,Database/Hazard Assessment/Landslide Potential Trail/Row500.json
+600,699,Database/Hazard Assessment/Landslide Potential Trail/Row600.json
+700,799,Database/Hazard Assessment/Landslide Potential Trail/Row700.json
+800,899,Database/Hazard Assessment/Landslide Potential Trail/Row800.json
+900,999,Database/Hazard Assessment/Landslide Potential Trail/Row900.json
+1000,1099,Database/Hazard Assessment/Landslide Potential Trail/Row1000.json
+1100,1199,Database/Hazard Assessment/Landslide Potential Trail/Row1100.json
+1200,1299,Database/Hazard Assessment/Landslide Potential Trail/Row1200.json
+1300,1399,Database/Hazard Assessment/Landslide Potential Trail/Row1300.json
+1400,1499,Database/Hazard Assessment/Landslide Potential Trail/Row1400.json
+1500,1599,Database/Hazard Assessment/Landslide Potential Trail/Row1500.json
+1600,1699,Database/Hazard Assessment/Landslide Potential Trail/Row1600.json
+1700,1799,Database/Hazard Assessment/Landslide Potential Trail/Row1700.json
+1800,1899,Database/Hazard Assessment/Landslide Potential Trail/Row1800.json
+1900,1999,Database/Hazard Assessment/Landslide Potential Trail/Row1900.json
+2000,2099,Database/Hazard Assessment/Landslide Potential Trail/Row2000.json
+2100,2199,Database/Hazard Assessment/Landslide Potential Trail/Row2100.json
+2200,2299,Database/Hazard Assessment/Landslide Potential Trail/Row2200.json
