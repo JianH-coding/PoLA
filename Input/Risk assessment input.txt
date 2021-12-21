@@ -42,7 +42,7 @@ Database/Hazard Assessment/Landslide Potential Trail List.txt
 Database/Vulnerability Assessment/Landslide Human.txt
 ============================Risk Assessment Settings============================
 #Number of Monte Carlo samples for risk assessment (numberOfMonteCarloSamples): (suggested value: 10000)
-10000
+100000
 #Building protection factor(buildingProtectionFactor): (0-1: faction of exposed population when a building is hit by a landslide; first value for buildings <= 10 m, second value for building > 10 m)
 1, 0.1
 #Intervals for calculating affected building statistics (buildingBin):
@@ -64,8 +64,6 @@ Y
 Voyager
 #Report No. (reportNumber):
 20080606
-#Report type (reportType):
-Test
 #Rainstorm event date (rainstormDate):
 6-8 June 2008
 #Result path (resultPath):

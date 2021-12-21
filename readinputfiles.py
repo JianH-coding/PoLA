@@ -123,9 +123,6 @@ def readInputFiles(inputFilePath):
                 elif 'reportNumber' in line:
                     line = f.readline()
                     inputSetting['reportNumber'] = line.strip()
-                elif 'reportType' in line:
-                    line = f.readline()
-                    inputSetting['reportType'] = line.strip()
                 elif 'rainstormDate' in line:
                     line = f.readline()
                     inputSetting['rainstormDate'] = line.strip()

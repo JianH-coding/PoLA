@@ -128,6 +128,7 @@ def reportGeneration(inputSetting, outputFilePath):
 
     fig.savefig(outputFilePath['ReportPNG'], pad_inches=0)
     fig.savefig(outputFilePath['Report'], pad_inches=0)
+    print('Finished.')
 
     if not inputSetting['saveLargeFile']:
         gdal.GetDriverByName('GTiff').Delete(outputFilePath['Rainfall'])
@@ -174,10 +175,6 @@ def plotAffectedBuildingsMap(inputSetting, outputFilePath, ax):
     cb.ax.tick_params(labelsize=8)
     cb.set_label('Expected No. of Affected Buildings', fontsize=9, labelpad=0.5)
 
-    # plt.setp(ax.get_yticklabels(), rotation=90, va='center')
-    # plt.setp(ax.get_xticklabels(), fontsize=7)
-    # plt.setp(ax.get_yticklabels(), fontsize=7)
-    # plotRainfallContour(outputFilePath, ax)
     ax.get_xaxis().set_visible(False)
     ax.get_yaxis().set_visible(False)
 
@@ -213,10 +210,6 @@ def plotFatalityMap(inputSetting, outputFilePath, ax):
     cb.ax.tick_params(labelsize=8)
     cb.set_label('Expected No. of Fatalities', fontsize=9, labelpad=5.5)
 
-    # plt.setp(ax.get_yticklabels(), rotation=90, va='center')
-    # plt.setp(ax.get_xticklabels(), fontsize=7)
-    # plt.setp(ax.get_yticklabels(), fontsize=7)
-    #plotRainfallContour(outputFilePath, ax)
     ax.get_xaxis().set_visible(False)
     ax.get_yaxis().set_visible(False)
 
@@ -270,7 +263,6 @@ def plotAffectedBuildingsProbability(inputSetting, outputFilePath, ax):
     xlabel = [f'{x:n}' for x in histIntervals[:-1]]
     ax.set_xticklabels(xlabel, fontsize=8)
     ax.set_xlabel('No. of affected buildings', fontsize=9, labelpad=0.5)
-    # ax.xaxis.labelpad = 0
     ax.set_xlim(0, len(histIntervals) - 1)
     ax.get_yaxis().set_visible(False)
     for spine in ["left", "top", "right"]:
@@ -298,7 +290,6 @@ def plotFatalitiesProbability(inputSetting, outputFilePath, ax):
     xlabel = [f'{x:n}' for x in histIntervals[:-1]]
     ax.set_xticklabels(xlabel, fontsize=8)
     ax.set_xlabel('No. of fatalities', fontsize=9, labelpad=0.5)
-    # ax.xaxis.labelpad = 0
     ax.set_xlim(0, len(histIntervals) - 1)
     ax.get_yaxis().set_visible(False)
     for spine in ["left", "top", "right"]:
@@ -418,16 +409,12 @@ def plotHazardSummaryTable(outputFilePath, ax):
         region.append(sortedHazardSummaryDataframe.iloc[nzone][1])
         estimatedLandslide.append(f"{sortedHazardSummaryDataframe.iloc[nzone][2]:.0f}")
 
-    # region = ['Region', 'Entire HK', 'HK Island', 'Kowloon', 'NT East', 'NT West', 'Lantau Island']
-
     summaryTable = ax.table(cellText=[region, estimatedLandslide], cellLoc='center', bbox=(0, 0, 1, 1))
     summaryTable.auto_set_font_size(False)
     #summaryTable.auto_set_column_width([x for x in range(len(region))])
     summaryTable.set_fontsize(9)
     applyThreePartTable(summaryTable, len(region))
 
-    # setLabelFontBold(summaryTable, col=0)
-    # ax.axis('tight')
     ax.axis('off')
 
     return totalLandslide
@@ -477,13 +464,13 @@ def plotReportTime(inputSetting, ax, fontsize=8):
     now = datetime.now()
     nowString = now.strftime("%a %Y-%m-%d %H:%M:%S")
     reportTime = f"Report generation time: {nowString}\nRainstorm event date: {inputSetting['rainstormDate']}"
-    ax.text(0, 0, reportTime, ha='left', fontsize=fontsize)
+    ax.text(0, 0.7, reportTime, ha='left', va='top', fontsize=fontsize)
     ax.axis('off')
 
 
 def plotReportNumber(inputSetting, ax, fontsize=8):
-    reportNumber = f"Report No.: {inputSetting['reportNumber']}\nReport type: {inputSetting['reportType']}"
-    ax.text(1, 0, reportNumber, ha='right', fontsize=fontsize)
+    reportNumber = f"Report No.: {inputSetting['reportNumber']}"
+    ax.text(1, 0.7, reportNumber, ha='right', va='top', fontsize=fontsize)
     ax.axis('off')
 
 
