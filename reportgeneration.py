@@ -411,7 +411,6 @@ def plotHazardSummaryTable(outputFilePath, ax):
 
     summaryTable = ax.table(cellText=[region, estimatedLandslide], cellLoc='center', bbox=(0, 0, 1, 1))
     summaryTable.auto_set_font_size(False)
-    #summaryTable.auto_set_column_width([x for x in range(len(region))])
     summaryTable.set_fontsize(9)
     applyThreePartTable(summaryTable, len(region))
 
