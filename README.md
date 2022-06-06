@@ -55,6 +55,6 @@ Note that `python` should be added to the PATH system variable prior to running 
 
 If the codes are runing for the first time, it will take several minutes (about 3 mins with the recommended specs) to generate files of potential landslide trails (`.json` files in `Hazard Assessment\Landslide Potential Trail`) and building locations (`Building Location.json` in `Digital Hong Kong\Building`). These files, once generated, will be reused next time.
 
-If the files of potential landslide trails and building locations have been already generated, it will be about 3 mins with the recommended specs to assess landslide risk and genarate a one-page report as shown below:
+If the files of potential landslide trails and building locations have been already generated, it will take about 3 mins with the recommended specs to assess landslide risk and genarate a one-page report as shown below:
 
 ![image](./result20080606test/Report.png "An example of one-page report")
