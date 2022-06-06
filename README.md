@@ -43,7 +43,7 @@ The codes can be downloaded as a ZIP file from this repo. No installation is nee
 ## Demo
 The codes can be excuted after unzip the file in the command line by
 ```
-conda activate pola
+conda activate Pola
 python promptriskassessment.py
 ```
 Note that `python` should be added to the PATH system variable prior to running the code above in the command line. Another way to run the codes is using [Visual Studio Code](https://code.visualstudio.com/).
