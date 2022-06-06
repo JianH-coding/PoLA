@@ -8,6 +8,7 @@ from numba import jit
 import time
 import ujson
 import os
+from os.path import dirname
 from progressbar import progressBar
 from createfishnet import createFishnet
 
@@ -21,6 +22,8 @@ def generatePotentialTrailDatabase(inputSetting):
     if not os.path.exists(landslidePotentialTrailList.loc[0, 'FileName']):
         print('The landslide potential trail file was not found.')
         print('Start generating the potential trail database:')
+        if not os.path.exists(dirname(landslidePotentialTrailList.loc[0, 'FileName'])):
+            os.makedirs(dirname(landslidePotentialTrailList.loc[0, 'FileName']))
 
         with rasterio.open(inputSetting['DEMFile']) as src:
             DEM = src.read(1)

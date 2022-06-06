@@ -31,7 +31,11 @@ Minimum specs:
 ### Software Requirements
 The codes have been tested only on a PC with Windows 10. The recommended Python version is >= 3.8. 
 
-Other requirements of dependent python packages are listed in `requirements.txt`. These packages can be installed using `pip` in the command line.
+Other requirements of dependent python packages are listed in `requirements.txt`. 
+These packages can be installed using the package file `pola.yaml`:
+```
+conda env update -n Pola --file pola.yaml
+```
 
 ## Installation Guide
 The codes can be downloaded as a ZIP file from this repo. No installation is needed.
@@ -39,7 +43,7 @@ The codes can be downloaded as a ZIP file from this repo. No installation is nee
 ## Demo
 The codes can be excuted after unzip the file in the command line by
 ```
-cd PoLA (the path where you unzip the file)
+conda activate pola
 python promptriskassessment.py
 ```
 Note that `python` should be added to the PATH system variable prior to running the code above in the command line. Another way to run the codes is using [Visual Studio Code](https://code.visualstudio.com/).
