@@ -128,9 +128,6 @@ def calculateDistributionOfAffectedBuildingsAndFatality(inputSetting, outputFile
     summaryLayer.CreateField(fifthPercentileField)
     ninetyfifthPercentileField = ogr.FieldDefn('AB97_5thP', ogr.OFTReal)
     summaryLayer.CreateField(ninetyfifthPercentileField)
-    for ninterval in range(len(buildingInterval)-1):
-        histogramField = ogr.FieldDefn(f'AB{buildingInterval[ninterval]}', ogr.OFTReal)
-        summaryLayer.CreateField(histogramField)
 
     expectationField = ogr.FieldDefn('FExp', ogr.OFTReal)
     summaryLayer.CreateField(expectationField)
@@ -142,9 +139,6 @@ def calculateDistributionOfAffectedBuildingsAndFatality(inputSetting, outputFile
     summaryLayer.CreateField(fifthPercentileField)
     ninetyfifthPercentileField = ogr.FieldDefn('F97_5thP', ogr.OFTReal)
     summaryLayer.CreateField(ninetyfifthPercentileField)
-    for ninterval in range(len(fatalityInterval) - 1):
-        histogramField = ogr.FieldDefn(f'F{fatalityInterval[ninterval]}', ogr.OFTReal)
-        summaryLayer.CreateField(histogramField)
 
     for zone in summaryLayer:
         nzoneID = zone.GetFieldAsInteger(zoningIDFieldIndex)
@@ -153,16 +147,12 @@ def calculateDistributionOfAffectedBuildingsAndFatality(inputSetting, outputFile
         zone.SetField('ABMed', summaryAffectedBuildings.at[nzoneID, 'Median'])
         zone.SetField('AB2_5thP', summaryAffectedBuildings.at[nzoneID, '2.5th Percentile'])
         zone.SetField('AB97_5thP', summaryAffectedBuildings.at[nzoneID, '97.5th Percentile'])
-        for ninterval in range(len(buildingInterval) - 1):
-            zone.SetField(f'AB{buildingInterval[ninterval]}', summaryAffectedBuildings.at[nzoneID, f'[{buildingInterval[ninterval]},{buildingInterval[ninterval+1]})'])
 
         zone.SetField('FExp', summaryFatality.at[nzoneID, 'Expectation'])
         zone.SetField('FStd', summaryFatality.at[nzoneID, 'Standard Deviation'])
         zone.SetField('FMed', summaryFatality.at[nzoneID, 'Median'])
         zone.SetField('F2_5thP', summaryFatality.at[nzoneID, '2.5th Percentile'])
         zone.SetField('F97_5thP', summaryFatality.at[nzoneID, '97.5th Percentile'])
-        for ninterval in range(len(fatalityInterval) - 1):
-            zone.SetField(f'F{fatalityInterval[ninterval]}', summaryFatality.at[nzoneID, f'[{fatalityInterval[ninterval]},{fatalityInterval[ninterval + 1]})'])
 
         summaryLayer.SetFeature(zone)
 

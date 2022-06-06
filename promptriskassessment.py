@@ -4,6 +4,7 @@ Date: Dec. 9, 2021
 Written by Jian HE
 """
 
+import argparse
 import geopandas as gpd
 from readinputfiles import definition
 from generatedatabase import *
@@ -14,10 +15,9 @@ from totalriskanalysis import totalRiskCalculation
 from reportgeneration import reportGeneration
 
 
-def promptAssessment():
+def promptAssessment(inputFilePath):
 
     # --------------------------------Step 1: Read input files-----------------------------------
-    inputFilePath = 'Input/Risk assessment input.txt'
     inputSetting, outputFilePath = definition(inputFilePath)
     if not inputSetting:
         return
@@ -44,5 +44,8 @@ def promptAssessment():
 
 # Run the risk assessment
 if __name__ == '__main__':
-
-    promptAssessment()
+    parser = argparse.ArgumentParser(prog='PoLA', description='Prompt Landslide Risk Assessment.')
+    parser.add_argument('--input', '-i', default='Input/Risk assessment input.txt', metavar='FILE',
+                        help='Specify the input file')
+    inputFilePath = parser.parse_args().input
+    promptAssessment(inputFilePath)
