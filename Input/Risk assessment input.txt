@@ -29,6 +29,10 @@ Database/Digital Hong Kong/Building/Building.csv
 #Building location file (buildingLocationFile):
 Database/Digital Hong Kong/Building/Building Location.json
 ============================Hazard Assessment Settings============================
+#Prescribed landslide (isPrescribedLandslide)?:
+N
+#Prescribed landslide file (prescribedLandslideFile)?:
+NA
 #Landslide prediction model (landslidePredictionModel):
 Database/Hazard Assessment/Rainfall Landslide.txt
 #Landslide volume prediction model (landslideVolumeModel):
@@ -50,6 +54,8 @@ Database/Vulnerability Assessment/Landslide Human.txt
 #Intervals for calculating fatality statistics (fatalityBin):
 0, 0.5, 1, 5, 10, 10000
 ============================Output Settings============================
+#Generate report (generateReport)? (Y/N)
+Y
 #Theme color of different intervals for affected buildings (buildingThemeColor): (color names: https://matplotlib.org/3.3.0/gallery/color/named_colors.html)
 green, gold, orange, red, darkred
 #Warning names for affected buildings (buildingWarningNames):

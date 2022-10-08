@@ -3,6 +3,7 @@
 import rasterio
 import numpy as np
 import pandas as pd
+import geopandas as gpd
 from osgeo import ogr
 from numba import jit
 import time
@@ -13,7 +14,7 @@ from progressbar import progressBar
 from createfishnet import createFishnet
 
 
-def generatePotentialTrailDatabase(inputSetting):
+def generatePotentialTrailDatabase(inputSetting, maskFile=None):
     # Read the landslide potential trail list file
     landslidePotentialTrailList = pd.read_csv(inputSetting['landslidePotentialTrailListFile'], sep=',', skiprows=1)
     landslidePotentialTrailList = landslidePotentialTrailList.sort_values(by=['StartRow'])
@@ -37,8 +38,11 @@ def generatePotentialTrailDatabase(inputSetting):
         with rasterio.open(inputSetting['flowDirectionFile']) as src:
             flowDirection = src.read(1)
 
-        with rasterio.open(inputSetting['naturalTerrainForTrailFile']) as src:
-            naturalTerrain = src.read(1)
+        if maskFile: # cells with mask value = 0 will be ignored in the trail database to reduce file size
+            with rasterio.open(maskFile) as src:
+                mask = src.read(1)
+        else:
+            mask = np.ones_like(slope)
 
         landslidePredict = pd.read_csv(inputSetting['landslidePredictionModel'], sep=',', skiprows=1)
         slopeLowerBound = landslidePredict['Slope_lb'].min()
@@ -47,10 +51,10 @@ def generatePotentialTrailDatabase(inputSetting):
         trailProbabilityModel = landslideRunoutModel.iloc[:, 2:2+numberOfVolumeClasses].to_numpy()
         trailProbabilityModel = np.cumsum(trailProbabilityModel[::-1], axis=0)[::-1].T
         maximumRunoutDistance = landslideRunoutModel['RunoutDistance_ub'].max()
-        # According to the statistics of landslide runout, most landslides ceased to move within 50 m after when the terrain is flatter than 15 degrees.
-        maximumNumberOfCellBeyond15 = 50/cellSize
-        potentialLandslide = np.where((naturalTerrain == 1) & (slope > slopeLowerBound), 1, 0)
-        del naturalTerrain
+        # According to the statistics of landslide runout, most landslides (99.5%) ceased to move within 200 m after when the terrain is flatter than 15 degrees (GEO Report No.337 P19).
+        maximumNumberOfCellBeyond15 = 200/cellSize
+        potentialLandslide = np.where((mask > 0) & (slope > slopeLowerBound), 1, 0)
+        del mask
 
         starttime = time.time()
         currentFileIndex = 0
@@ -91,6 +95,8 @@ def generatePotentialTrailDatabase(inputSetting):
                     f.close()
                     f = None
                     currentFileIndex += 1
+            if currentFileIndex == len(landslidePotentialTrailList):
+                break
 
         endtime = time.time()
         print(f'Total time: {endtime - starttime} s')
@@ -109,25 +115,28 @@ def findTrail(row, col, nrow, ncol, cellSize, potentialLandslide, DEM, slope, fl
 
     trailRow = np.append(trailRow, row)  # the cell that the landslide occurs is the head of the trail with a probability of 1 and a angle of reach of the slope
     trailCol = np.append(trailCol, col)
-    trailTravelAngle = np.append(trailTravelAngle, slope[row, col])
+    # trailTravelAngle = np.append(trailTravelAngle, slope[row, col])
+    trailTravelAngle = np.append(trailTravelAngle, 89)
 
+    runoutDistanceUnit = 0
     cellInTrailCount = 0
     cellBeyond15Count = 0
-    nextRow = row
-    nextCol = col
+    rowOriginal = row
+    colOriginal = col
+
 
     while True:
-        nextRow, nextCol = findDownstreamCell(flowDirection[nextRow, nextCol], nextRow, nextCol)
-        if (potentialLandslide[nextRow, nextCol] == 0) or (nextRow < 0) or (nextCol < 0) or (nextRow >= nrow) or (nextCol >= ncol) or (DEM[nextRow, nextCol]>DEM[row, col]):
+        nextRow, nextCol, dist = findDownstreamCell(flowDirection[row, col], row, col)
+        if (nextRow < 0) or (nextCol < 0) or (nextRow >= nrow) or (nextCol >= ncol) or (DEM[nextRow, nextCol]>DEM[row, col]):
             break
 
-        runoutDistance = cellSize * (cellInTrailCount + 1)
-        travelAngle = 180/np.pi*np.arctan((DEM[row, col] - DEM[nextRow, nextCol]) / runoutDistance)
+        runoutDistance = cellSize * (runoutDistanceUnit + 1)
+        travelAngle = 180/np.pi*np.arctan((DEM[rowOriginal, colOriginal] - DEM[nextRow, nextCol]) / runoutDistance)
 
         if runoutDistance > maximumRunoutDistance:
             break
 
-        if (cellBeyond15Count > 0) or (slope[row, col] < 15):
+        if (cellBeyond15Count > 0) or (slope[nextRow, nextCol] < 15):
             cellBeyond15Count += 1
         if cellBeyond15Count >= maximumNumberOfCellBeyond15:
             break
@@ -136,6 +145,9 @@ def findTrail(row, col, nrow, ncol, cellSize, potentialLandslide, DEM, slope, fl
         trailCol = np.append(trailCol, nextCol)
         trailTravelAngle = np.append(trailTravelAngle, travelAngle)
         cellInTrailCount += 1
+        runoutDistanceUnit += dist
+        row = nextRow
+        col = nextCol
 
     if trailRow.size > 0:
         # If the trail is not empty, calculate the probability based on runout distance
@@ -150,31 +162,40 @@ def findDownstreamCell(flowDirection, row, col):
     if flowDirection == 1:
         nextRow = row
         nextCol = col + 1
+        dist = 1
     elif flowDirection == 2:
         nextRow = row + 1
         nextCol = col + 1
+        dist = 1.414
     elif flowDirection == 4:
         nextRow = row + 1
         nextCol = col
+        dist = 1
     elif flowDirection == 8:
         nextRow = row + 1
         nextCol = col - 1
+        dist = 1.414
     elif flowDirection == 16:
         nextRow = row
         nextCol = col - 1
+        dist = 1
     elif flowDirection == 32:
         nextRow = row - 1
         nextCol = col - 1
+        dist = 1.414
     elif flowDirection == 64:
         nextRow = row - 1
         nextCol = col
+        dist = 1
     elif flowDirection == 128:
         nextRow = row - 1
         nextCol = col + 1
+        dist = 1.414
     else:
         nextRow = -1
         nextCol = -1
-    return nextRow, nextCol
+        dist = 0
+    return nextRow, nextCol, dist
 
 
 def generateBuildingLocationDatabase(inputSetting):
@@ -215,6 +236,13 @@ def generateBuildingLocationDatabase(inputSetting):
 
         with open(inputSetting['buildingLocationFile'], 'w') as f:
             ujson.dump(buildingLocationDatabase, f)
+        
+        buildingLayer = None
+        buildingShapefile = None
+
+        buildingShapefile = gpd.read_file(inputSetting['buildingFile'])
+        buildingShapefile.drop(columns=['geometry'], inplace=True)
+        buildingShapefile.to_csv(inputSetting['buildingCSVFile'])
 
 
 @jit(nopython=True, fastmath=True)

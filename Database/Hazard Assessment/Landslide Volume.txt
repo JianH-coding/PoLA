@@ -1,4 +1,4 @@
-Based on ENTLI (up to 2013). vc=Volume class. vc_1(minor): <20 m^3, vc_2(medium): 20-50 m^3, vc_3(major): 50-500 m^3, vc_4(catastrophic): >500 m^3
+Based on ENTLI (up to 2013). vc=Volume class. vc_1(minor): <20 m^3, vc_2(medium): 20-50 m^3, vc_3(major): 50-500 m^3, vc_4(catastrophic): 500-2000 m^3
 Rainfall_lb,Rainfall_ub,vc_1,vc_2,vc_3,vc_4
 0,0.1,0.424091423,0.26650961,0.296490414,0.012908554
 0.1,0.2,0.377887785,0.269381782,0.335273519,0.017456914

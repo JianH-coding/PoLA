@@ -127,7 +127,8 @@ def reportGeneration(inputSetting, outputFilePath):
     plt.rcParams['font.family'] = "sans-serif"
 
     fig.savefig(outputFilePath['ReportPNG'], pad_inches=0)
-    fig.savefig(outputFilePath['Report'], pad_inches=0)
+    fig.savefig(outputFilePath['ReportSVG'], pad_inches=0)
+    fig.savefig(outputFilePath['ReportPDF'], pad_inches=0)
     print('Finished.')
 
     if not inputSetting['saveLargeFile']:
@@ -427,7 +428,7 @@ def plotLandslideDistribution(inputSetting, outputFilePath, ax):
     cax = divider.append_axes("right", size="5%", pad=0.05)
 
     # make a color map of fixed colors
-    cmap = ListedColormap(['none', 'green', 'gold', 'orange', 'red', 'darkred'])
+    cmap = ListedColormap(['white', 'green', 'gold', 'orange', 'red', 'darkred'])
     bounds = [0, 0.5, 5, 10, 20, 50, 500]
     ticks = [str(x) for x in bounds]
     norm = BoundaryNorm(bounds, cmap.N)

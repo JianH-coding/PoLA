@@ -7,8 +7,9 @@ Written by Jian HE
 import argparse
 import geopandas as gpd
 from readinputfiles import definition
-from generatedatabase import *
+from generatedatabase import generatePotentialTrailDatabase, generateBuildingLocationDatabase
 from hazardanalysis import hazardAnalysis
+from prescribedlandslide import landslideConversion
 from consequenceanalysis import consequenceAnalysis
 from individualriskanalysis import individualRiskAnalysis
 from totalriskanalysis import totalRiskCalculation
@@ -23,11 +24,15 @@ def promptAssessment(inputFilePath):
         return
 
     # If the assessment is executed for the first time, it will take some time to generate potential landslide trail and building location files.
-    generatePotentialTrailDatabase(inputSetting)
-    generateBuildingLocationDatabase(inputSetting)
-
+    if inputSetting.get('isPrescribedLandslide'):
+        landslideConversion(inputSetting, outputFilePath)
+        generatePotentialTrailDatabase(inputSetting, maskFile=outputFilePath['LandslideProbability'])
+        generateBuildingLocationDatabase(inputSetting)
+    else:
+        generatePotentialTrailDatabase(inputSetting, maskFile=inputSetting['naturalTerrainForTrailFile'])
+        generateBuildingLocationDatabase(inputSetting)
     # --------------------------------Step 2: Hazard assessment----------------------------------
-    hazardAnalysis(inputSetting, outputFilePath)
+        hazardAnalysis(inputSetting, outputFilePath)
 
     # --------------------------------Step 3: Consequence assessment-----------------------------
     consequenceAnalysis(inputSetting, outputFilePath)
@@ -39,13 +44,14 @@ def promptAssessment(inputFilePath):
     totalRiskCalculation(inputSetting, outputFilePath)
 
     # --------------------------------Step 6: Generate figures and reports-----------------------
-    reportGeneration(inputSetting, outputFilePath)
+    if inputSetting.get('generateReport', True):
+        reportGeneration(inputSetting, outputFilePath)
 
 
 # Run the risk assessment
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog='PoLA', description='Prompt Landslide Risk Assessment.')
-    parser.add_argument('--input', '-i', default='Input/Risk assessment input.txt', metavar='FILE',
+    parser.add_argument('--input', '-i', default='Input/Risk assessment input_PoShanRoad.txt', metavar='FILE',
                         help='Specify the input file')
     inputFilePath = parser.parse_args().input
     promptAssessment(inputFilePath)

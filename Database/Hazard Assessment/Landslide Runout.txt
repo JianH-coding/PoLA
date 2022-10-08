@@ -1,4 +1,4 @@
-Based on ENTLI (up to 2013). vc=Volume class. vc_1(minor): <20 m^3, vc_2(medium): 20-50 m^3, vc_3(major): 50-500 m^3, vc_4(catastrophic): >500 m^3
+Based on ENTLI (up to 2013). vc=Volume class. vc_1(minor): <20 m^3, vc_2(medium): 20-50 m^3, vc_3(major): 50-500 m^3, vc_4(catastrophic): 500-2000 m^3
 RunoutDistance_lb,RunoutDistance_ub,vc_1,vc_2,vc_3,vc_4
 0.1,10,0.32361099,0.098145734,0.033415048,0.008947175
 10,30,0.502438624,0.499759258,0.288291505,0.072372922

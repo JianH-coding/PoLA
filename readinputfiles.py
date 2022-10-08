@@ -64,6 +64,13 @@ def readInputFiles(inputFilePath):
                     line = f.readline()
                     inputSetting['buildingLocationFile'] = line.strip()
 
+                elif 'isPrescribedLandslide' in line:
+                    line = f.readline()
+                    temp = line.strip()
+                    inputSetting['isPrescribedLandslide'] = True if temp in ['Y', 'y', 'YES', 'Yes', 'yes', 'T', 't', 'TRUE', 'True', 'true', '1'] else False
+                elif 'prescribedLandslideFile' in line:
+                    line = f.readline()
+                    inputSetting['prescribedLandslideFile'] = line.strip()
                 elif 'landslidePredictionModel' in line:
                     line = f.readline()
                     inputSetting['landslidePredictionModel'] = line.strip()
@@ -89,6 +96,10 @@ def readInputFiles(inputFilePath):
                     factor = line.strip()
                     inputSetting['buildingProtectionFactor'] = [float(x) for x in factor.split(',')]
 
+                elif 'generateReport' in line:
+                    line = f.readline()
+                    temp = line.strip()
+                    inputSetting['generateReport'] = True if temp in ['Y', 'y', 'YES', 'Yes', 'yes', 'T', 't', 'TRUE', 'True', 'true', '1'] else False
                 elif 'buildingBin' in line:
                     line = f.readline()
                     interval = line.strip()
@@ -165,6 +176,7 @@ def defineOutputFile(inputSetting):
     outputFilePath['FatalitySummary'] = f'{outputPath}/FatalitySummary.csv'
     outputFilePath['AffectedBuildingSample'] = f'{outputPath}/AffectedBuildingSample.txt'
     outputFilePath['FatalitySample'] = f'{outputPath}/FatalitySample.txt'
-    outputFilePath['Report'] = f'{outputPath}/Report.pdf'
+    outputFilePath['ReportPDF'] = f'{outputPath}/Report.pdf'
     outputFilePath['ReportPNG'] = f'{outputPath}/Report.png'
+    outputFilePath['ReportSVG'] = f'{outputPath}/Report.svg'
     return outputFilePath
