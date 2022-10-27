@@ -51,8 +51,8 @@ def generatePotentialTrailDatabase(inputSetting, maskFile=None):
         trailProbabilityModel = landslideRunoutModel.iloc[:, 2:2+numberOfVolumeClasses].to_numpy()
         trailProbabilityModel = np.cumsum(trailProbabilityModel[::-1], axis=0)[::-1].T
         maximumRunoutDistance = landslideRunoutModel['RunoutDistance_ub'].max()
-        # According to the statistics of landslide runout, most landslides (99.5%) ceased to move within 200 m after when the terrain is flatter than 15 degrees (GEO Report No.337 P19).
-        maximumNumberOfCellBeyond15 = 200/cellSize
+        # According to the statistics of landslide runout, most landslides (97.2%) ceased to move within 200 m after when the terrain is flatter than 15 degrees (GEO Report No.337 P19).
+        maximumNumberOfCellBeyond15 = 100/cellSize
         potentialLandslide = np.where((mask > 0) & (slope > slopeLowerBound), 1, 0)
         del mask
 
@@ -127,7 +127,7 @@ def findTrail(row, col, nrow, ncol, cellSize, potentialLandslide, DEM, slope, fl
 
     while True:
         nextRow, nextCol, dist = findDownstreamCell(flowDirection[row, col], row, col)
-        if (nextRow < 0) or (nextCol < 0) or (nextRow >= nrow) or (nextCol >= ncol) or (DEM[nextRow, nextCol]>DEM[row, col]):
+        if (nextRow < 0) or (nextCol < 0) or (nextRow >= nrow) or (nextCol >= ncol) or (DEM[nextRow, nextCol]>DEM[row, col]) or (potentialLandslide==0):
             break
 
         runoutDistance = cellSize * (runoutDistanceUnit + 1)

@@ -29,7 +29,7 @@ def landslideConversion(inputSetting, outputFilePath):
                                                          fill=0,
                                                          dtype=rasterio.float64)
 
-    volumeClass = np.array([0, 20, 50, 500, 2000, 10000])
+    volumeClass = np.array([0, 20, 50, 500, 2000, 10000, 50000])
     volumeProbability = np.ones((len(volumeClass)-1,shape[0],shape[1]))*0
     for volumeID in range(len(volumeClass)-1):
         volumeProbability[volumeID,:,:] = np.where((rasterizedVolume>volumeClass[volumeID])&(rasterizedVolume<=volumeClass[volumeID+1])&(rasterizedVolume!=0), 1, 0)
