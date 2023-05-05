@@ -127,7 +127,7 @@ def reportGeneration(inputSetting, outputFilePath):
     plt.rcParams['font.family'] = "sans-serif"
 
     fig.savefig(outputFilePath['ReportPNG'], pad_inches=0)
-    fig.savefig(outputFilePath['ReportSVG'], pad_inches=0)
+    # fig.savefig(outputFilePath['ReportSVG'], pad_inches=0)
     fig.savefig(outputFilePath['ReportPDF'], pad_inches=0)
     print('Finished.')
 
@@ -166,9 +166,9 @@ def plotAffectedBuildingsMap(inputSetting, outputFilePath, ax):
         if inputSetting['basemapStyle'] == 'TonerLite':
             ctx.add_basemap(ax, crs=summary.crs, source=ctx.providers.Stamen.TonerLite, attribution='')
         elif inputSetting['basemapStyle'] == 'Terrain':
-            ctx.add_basemap(ax, crs=summary.crs, source=ctx.providers.Stamen.Terrain, attribution='')
+            ctx.add_basemap(ax, crs=summary.crs, source=ctx.providers.Stamen.Terrain, attribution='') 
         else:
-            ctx.add_basemap(ax, crs=summary.crs, source=ctx.providers.CartoDB.Voyager, attribution='')
+            ctx.add_basemap(ax, crs=summary.crs, source=inputSetting['basemapStyle'], attribution='')
     else:
         ax = summary.plot(column='ABExp', ax=ax, cax=cax, cmap=cmap, norm=norm, edgecolor='gray', linewidth=0.5)
     cb = colorbar.ColorbarBase(cax, cmap=cmap, norm=norm, boundaries=bounds, ticks=bounds, spacing='uniform', orientation='vertical')
@@ -202,7 +202,7 @@ def plotFatalityMap(inputSetting, outputFilePath, ax):
         elif inputSetting['basemapStyle'] == 'Terrain':
             ctx.add_basemap(ax, crs=summary.crs, source=ctx.providers.Stamen.Terrain, attribution='')
         else:
-            ctx.add_basemap(ax, crs=summary.crs, source=ctx.providers.CartoDB.Voyager, attribution='')
+            ctx.add_basemap(ax, crs=summary.crs, source=inputSetting['basemapStyle'], attribution='')
     else:
         ax = summary.plot(column='FExp', ax=ax, cax=cax, cmap=cmap, norm=norm, edgecolor='gray', linewidth=0.5)
 

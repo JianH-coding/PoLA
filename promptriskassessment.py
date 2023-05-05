@@ -51,7 +51,7 @@ def promptAssessment(inputFilePath):
 # Run the risk assessment
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog='PoLA', description='Prompt Landslide Risk Assessment.')
-    parser.add_argument('--input', '-i', default='Input/Risk assessment input_PoShanRoad.txt', metavar='FILE',
+    parser.add_argument('--input', '-i', default='Input/Risk assessment input.txt', metavar='FILE',
                         help='Specify the input file')
     inputFilePath = parser.parse_args().input
     promptAssessment(inputFilePath)

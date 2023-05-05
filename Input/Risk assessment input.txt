@@ -66,8 +66,8 @@ green, gold, orange, red, darkred
 Low, Moderate, High, Very High, Extreme
 #Add basemap (addBasemap)? (Y/N)
 Y
-#Basemap style (basemapStyle): (TonerLite/Terrain/Voyager)
-Voyager
+#Basemap style (basemapStyle): (TonerLite/Terrain/Local raster path)
+Database/Digital Hong Kong/Basemap.tif
 #Report No. (reportNumber):
 20080606
 #Rainstorm event date (rainstormDate):
