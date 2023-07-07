@@ -398,8 +398,8 @@ def plotHazardSummaryTable(outputFilePath, ax):
         zoneSequence = zone.GetFieldAsInteger(sequenceFieldIndex)
         zoneName = zone.GetFieldAsString(zoningNameFieldIndex)
         zoneLandslideCount = zone.GetFieldAsInteger(landslideCountFieldIndex)
-        hazardSummaryDataframe = hazardSummaryDataframe.append(
-            {'Sequence': zoneSequence, 'ZoningName': zoneName, 'LandslideCount': zoneLandslideCount}, ignore_index=True)
+        new_row = {'Sequence': zoneSequence, 'ZoningName': zoneName, 'LandslideCount': zoneLandslideCount}
+        hazardSummaryDataframe = pd.concat([hazardSummaryDataframe, pd.DataFrame([new_row])], ignore_index=True)
 
     sortedHazardSummaryDataframe = hazardSummaryDataframe.sort_values(by=['Sequence'])
     region = ['Region', 'Entire HK']

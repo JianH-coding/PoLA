@@ -169,7 +169,7 @@ def landslidePrediction(inputSetting, outputFilePath):
         landslideVolumeProbability = calculateVolumeProbability(rainfall_lb, rainfall_ub, normalizedRainfall, rasterMask, volumeProbabilityArray, landslideVolumeProbability)
     landslideVolumeProbability[:, rasterMask] = nodataValue
 
-    # Write the landslide probability raster file
+    # Write the landslide volume probability raster file
     rasterMeta.update(count=numberOfVolumeClasses)
     with rasterio.open(outputFilePath['LandslideVolumeProbability'], 'w', **rasterMeta, compress="LZW") as src:
         src.write(landslideVolumeProbability)
